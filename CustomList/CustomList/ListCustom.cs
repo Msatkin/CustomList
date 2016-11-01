@@ -9,7 +9,7 @@ namespace CustomList
 {
     public class ListCustom<T>
     {
-        public int count = 0;
+        int count = 0;
         public int capacity = 4;
         private int capacityInterval = 2;
         private T[] list;
@@ -87,9 +87,91 @@ namespace CustomList
             count--;
             list = tempList;
         }
+        //-----------------------------------------Misc
         public int Count()
         {
             return count;
+        }
+        public int Count(T item)
+        {
+            int amountOfItem = 0;
+            for (int i = 0; i < count; i++)
+            {
+                if (list[i].Equals(item))
+                {
+                    amountOfItem++;
+                }
+            }
+            return amountOfItem;
+        }
+        public int GetFirstIndex(T item)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                if (list[i].Equals(item))
+                {
+                    return i;
+                }
+            }
+            throw new NullReferenceException();
+        }
+        public override string ToString()
+        {
+            StringBuilder listString = new StringBuilder();
+            for (int i = 0; i < count; i++)
+            {
+                 listString.Append(list[i]);
+            }
+            return listString.ToString();
+        }
+        public void Zipper(ListCustom<T> list2)
+        {
+            T[] tempList = new T[capacity + list2.capacity];
+            int length = GetLesserLength(list2);
+            for (int i = 0; i < length; i++)
+            {
+                tempList[(i * 2)] = list[i];
+                tempList[(i * 2) + 1] = list2.list[i];
+            }
+            if (ListTwoSmaller(list2))
+            {
+                for (int i = list2.count * 2; i < count + list2.count; i++)
+                {
+                    tempList[i] = list[i - list2.count];
+                }
+            }
+            else
+            {
+                for (int i = count * 2; i < count + list2.count; i++)
+                {
+                    tempList[i] = list2.list[i - count];
+                }
+            }
+            list = tempList;
+            count += list2.count;
+            capacity += list2.capacity;
+        }
+        private int GetLesserLength(ListCustom<T> list2)
+        {
+            if (count <= list2.count)
+            {
+                return count;
+            }
+            else
+            {
+                return list2.count;
+            }
+        }
+        private bool ListTwoSmaller(ListCustom<T> list2)
+        {
+            if (count <= list2.count)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         public T ReturnAt(Int32 index)
         {

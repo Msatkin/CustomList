@@ -9,24 +9,28 @@ namespace CustomList
     public class Main
     {
         ListCustom<int> testList = new ListCustom<int>();
-        List<int> testList2 = new List<int>() { 1, 1, 1, 2, 2, 2 };
+        ListCustom<int> testList2 = new ListCustom<int>();
 
         public void RunTest()
         {
-            testList.Add(1);
+            testList.Add(0);
             testList.Add(2);
-            testList.AddAt(3,0);
             testList.Add(4);
-            testList.Add(3);
-            testList.Add(2);
-            testList.Add(1);
+            testList.Add(6);
+            testList.Add(8);
+            testList.Add(10);
+            testList.Add(11);
+            testList.Add(12);
+            testList.Add(13);
+            testList.Add(14);
+            testList2.Add(1);
+            testList2.Add(3);
+            testList2.Add(5);
+            testList2.Add(7);
+            testList2.Add(9);
+            testList.Zipper(testList2);
             PrintList();
-            testList.Remove(1);
-            PrintList();
-            testList.Remove(2);
-            PrintList();
-            testList.Remove(3);
-            PrintList();
+
         }
         public void PrintList()
         {
