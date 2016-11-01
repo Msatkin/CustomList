@@ -15,7 +15,7 @@ namespace CustomList
         {
             testList.Add(1);
             testList.Add(2);
-            testList.Add(3);
+            testList.AddAt(3,0);
             testList.Add(4);
             testList.Add(3);
             testList.Add(2);
