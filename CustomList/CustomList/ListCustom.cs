@@ -7,12 +7,23 @@ using System.Threading.Tasks;
 
 namespace CustomList
 {
-    public class ListCustom<T> : IEnumerable
+    public class ListCustom<T> : CollectionBase, IEnumerable
     {
         int count = 0;
         static int listBuffer = 8;
         private T[] list;
 
+        public T this[int index]
+        {
+            get
+            {
+                return (T) this.list[index];
+            }
+            set
+            {
+                this.list[index] = value;
+            }
+        }
         public ListCustom()
         {
             list = new T[count + listBuffer];
@@ -67,7 +78,7 @@ namespace CustomList
             count -= itemsRemoved;
             list = tempList;
         }
-        public void RemoveAt(int index)
+        new public void RemoveAt(int index)
         {
             T[] tempList = new T[count + listBuffer];
             for (int i = 0; i < index; i++)
@@ -83,11 +94,29 @@ namespace CustomList
             list = tempList;
         }
         //-----------------------------------------Misc
-        public int Count()
+        public ListCustom<T> Zipper(ListCustom<T> listOne, ListCustom<T> listTwo)
+        {
+            if (listOne != null && listTwo != null)
+            {
+                ListCustom<T> tempList = new ListCustom<T>();
+                int length = GetLesserLength(listOne, listTwo);
+                for (int i = 0; i < length; i++)
+                {
+                    tempList.Add(listOne[i]);
+                    tempList.Add(listTwo[i]);
+                }
+                return tempList;
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
+        }
+        new public int Count()
         {
             return count;
         }
-        public int Count(T item)
+        new public int Count(T item)
         {
             int amountOfItem = 0;
             for (int i = 0; i < count; i++)
@@ -110,53 +139,15 @@ namespace CustomList
             }
             throw new NullReferenceException();
         }
-        
-        public void Zipper(ListCustom<T> list2)
+        private int GetLesserLength(ListCustom<T> listOne, ListCustom<T> listTwo)
         {
-            T[] tempList = new T[count + list2.count + listBuffer];
-            int length = GetLesserLength(list2);
-            for (int i = 0; i < length; i++)
-            {
-                tempList[(i * 2)] = list[i];
-                tempList[(i * 2) + 1] = list2.list[i];
-            }
-            if (ListTwoSmaller(list2))
-            {
-                for (int i = list2.count * 2; i < count + list2.count; i++)
-                {
-                    tempList[i] = list[i - list2.count];
-                }
-            }
-            else
-            {
-                for (int i = count * 2; i < count + list2.count; i++)
-                {
-                    tempList[i] = list2.list[i - count];
-                }
-            }
-            list = tempList;
-            count += list2.count;
-        }
-        private int GetLesserLength(ListCustom<T> list2)
-        {
-            if (count <= list2.count)
+            if (listOne.count <= listTwo.count)
             {
                 return count;
             }
             else
             {
-                return list2.count;
-            }
-        }
-        private bool ListTwoSmaller(ListCustom<T> list2)
-        {
-            if (count <= list2.count)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
+                return listTwo.count;
             }
         }
         public T ReturnAt(Int32 index)
@@ -170,6 +161,13 @@ namespace CustomList
                 throw new IndexOutOfRangeException();
             }
         }
+        new public IEnumerator GetEnumerator()
+        {
+            for (int i = 0; i < count; i++)
+            {
+                yield return list[i];
+            }
+        }
         //-----------------------------------------Overrides
         public override string ToString()
         {
@@ -180,43 +178,41 @@ namespace CustomList
             }
             return listString.ToString();
         }
-
-        public IEnumerator GetEnumerator()
-        {
-            for (int i = 0; i < count; i++)
-            {
-                yield return list[i];
-            }
-        }
         //-----------------------------------------Overloads
-        public static ListCustom<T> operator +(ListCustom<T> list1, ListCustom<T> list2)
+        public static ListCustom<T> operator +(ListCustom<T> listOne, ListCustom<T> listTwo)
         {
-            int length = list1.count + list2.count;
-            T[] tempList = new T[length + listBuffer];
-
-            for (int i = 0; i < list1.count; i++)
+            if (listOne != null && listTwo != null)
             {
-                tempList[i] = list1.list[i];
+                ListCustom<T> tempList = new ListCustom<T>();
+                for (int i = 0; i < listOne.count; i++)
+                {
+                    tempList.Add(listOne[i]);
+                }
+                for (int i = 0; i < listTwo.count; i++)
+                {
+                    tempList.Add(listTwo[i]);
+                }
+                return tempList;
             }
-            for (int i = 0; i < list2.count; i++)
+            else
             {
-                tempList[i + list1.count] = list2.list[i];
+                throw new NullReferenceException();
             }
-
-            ListCustom<T> tempListCustom = new ListCustom<T>();
-            tempListCustom.count = length;
-            tempListCustom.list = tempList;
-
-            return tempListCustom;
         }
-        public static ListCustom<T> operator -(ListCustom<T> list1, ListCustom<T> list2)
+        public static ListCustom<T> operator -(ListCustom<T> listOne, ListCustom<T> listTwo)
         {
-            for (int i = 0; i < list2.count; i++)
+            if (listOne != null && listTwo != null)
             {
-                list1.Remove(list2.list[i]);
+                for (int i = 0; i < listTwo.count; i++)
+                {
+                    listOne.Remove(listTwo.list[i]);
+                }
+                return listOne;
             }
-
-            return list1;
+            else
+            {
+                throw new NullReferenceException();
+            }
         }
     }
 }

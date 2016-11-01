@@ -10,165 +10,166 @@ namespace ListTesting
         [TestMethod]
         public void AddItem()
         {
-            ListCustom<int> testList = new ListCustom<int>();
+            ListCustom<int> testListOne = new ListCustom<int>();
 
-            testList.Add(0);
-            testList.Add(1);
+            testListOne.Add(0);
+            testListOne.Add(1);
 
-            Assert.AreEqual(1, testList.ReturnAt(1));
+            Assert.AreEqual(1, testListOne.ReturnAt(1));
         }
         [TestMethod]
         public void AddAtIndex()
         {
-            ListCustom<int> testList = new ListCustom<int>();
+            ListCustom<int> testListOne = new ListCustom<int>();
 
-            testList.Add(0);
-            testList.Add(1);
-            testList.Add(2);
-            testList.Add(3);
-            testList.Add(4);
-            testList.Add(5);
-            testList.AddAt(6, 0);
+            testListOne.Add(0);
+            testListOne.Add(1);
+            testListOne.Add(2);
+            testListOne.Add(3);
+            testListOne.Add(4);
+            testListOne.Add(5);
+            testListOne.AddAt(6, 0);
 
-            Assert.AreEqual(5, testList.ReturnAt(6));
+            Assert.AreEqual(5, testListOne.ReturnAt(6));
         }
         [TestMethod]
         public void RemoveItem()
         {
-            ListCustom<int> testList = new ListCustom<int>();
+            ListCustom<int> testListOne = new ListCustom<int>();
 
-            testList.Add(0);
-            testList.Add(1);
-            testList.Add(2);
-            testList.Remove(1);
+            testListOne.Add(0);
+            testListOne.Add(1);
+            testListOne.Add(2);
+            testListOne.Remove(1);
 
-            Assert.AreEqual(2, testList.ReturnAt(1));
+            Assert.AreEqual(2, testListOne.ReturnAt(1));
         }
         [TestMethod]
         public void RemoveAtIndex()
         {
-            ListCustom<int> testList = new ListCustom<int>();
+            ListCustom<int> testListOne = new ListCustom<int>();
 
-            testList.Add(0);
-            testList.Add(1);
-            testList.Add(2);
-            testList.RemoveAt(1);
+            testListOne.Add(0);
+            testListOne.Add(1);
+            testListOne.Add(2);
+            testListOne.RemoveAt(1);
 
-            Assert.AreEqual(2, testList.ReturnAt(1));
+            Assert.AreEqual(2, testListOne.ReturnAt(1));
         }
         [TestMethod]
         public void CountItem()
         {
-            ListCustom<int> testList = new ListCustom<int>();
+            ListCustom<int> testListOne = new ListCustom<int>();
 
-            testList.Add(0);
-            testList.Add(1);
-            testList.Add(1);
-            testList.Add(1);
-            testList.Add(2);
+            testListOne.Add(0);
+            testListOne.Add(1);
+            testListOne.Add(1);
+            testListOne.Add(1);
+            testListOne.Add(2);
 
-            Assert.AreEqual(3, testList.Count(1));
+            Assert.AreEqual(3, testListOne.Count(1));
         }
         [TestMethod]
         public void CountAll()
         {
-            ListCustom<int> testList = new ListCustom<int>();
+            ListCustom<int> testListOne = new ListCustom<int>();
 
-            testList.Add(0);
-            testList.Add(1);
-            testList.Add(2);
-            testList.Add(1);
-            testList.Add(2);
+            testListOne.Add(0);
+            testListOne.Add(1);
+            testListOne.Add(2);
+            testListOne.Add(1);
+            testListOne.Add(2);
 
-            Assert.AreEqual(5, testList.Count());
+            Assert.AreEqual(5, testListOne.Count());
         }
         [TestMethod]
         public void ConvertToString()
         {
-            ListCustom<string> testList = new ListCustom<string>();
+            ListCustom<string> testListOne = new ListCustom<string>();
 
-            testList.Add("Hello");
-            testList.Add(" ");
-            testList.Add("World");
+            testListOne.Add("Hello");
+            testListOne.Add(" ");
+            testListOne.Add("World");
 
-            Assert.AreEqual("Hello World", testList.ToString());
+            Assert.AreEqual("Hello World", testListOne.ToString());
         }
         [TestMethod]
         public void ZipperTwoLists()
         {
-            ListCustom<int> testList = new ListCustom<int>();
-            ListCustom<int> testList2 = new ListCustom<int>();
+            ListCustom<int> testListOne = new ListCustom<int>();
+            ListCustom<int> testListTwo = new ListCustom<int>();
+            ListCustom<int> results = new ListCustom<int>();
 
-            testList.Add(0);
-            testList.Add(2);
-            testList.Add(4);
-            testList.Add(6);
-            testList.Add(8);
-            testList.Add(10);
-            testList.Add(11);
-            testList.Add(12);
-            testList.Add(13);
-            testList.Add(14);
-            testList2.Add(1);
-            testList2.Add(3);
-            testList2.Add(5);
-            testList2.Add(7);
-            testList2.Add(9);
-            testList.Zipper(testList2);
+            testListOne.Add(0);
+            testListOne.Add(2);
+            testListOne.Add(4);
+            testListOne.Add(6);
+            testListOne.Add(8);
+            testListOne.Add(10);
+            testListOne.Add(11);
+            testListOne.Add(12);
+            testListOne.Add(13);
+            testListOne.Add(14);
+            testListTwo.Add(1);
+            testListTwo.Add(3);
+            testListTwo.Add(5);
+            testListTwo.Add(7);
+            testListTwo.Add(9);
+            results = testListOne.Zipper(testListOne, testListTwo);
 
-            Assert.AreEqual(5, testList.ReturnAt(5));
+            Assert.AreEqual(5, results.ReturnAt(5));
         }
         [TestMethod]
         public void AddTwoLists()
         {
-            ListCustom<int> testList = new ListCustom<int>();
-            ListCustom<int> testList2 = new ListCustom<int>();
+            ListCustom<int> testListOne = new ListCustom<int>();
+            ListCustom<int> testListTwo = new ListCustom<int>();
             ListCustom<int> results = new ListCustom<int>();
 
-            testList.Add(0);
-            testList.Add(1);
-            testList.Add(2);
-            testList.Add(3);
-            testList.Add(4);
-            testList.Add(5);
-            testList.Add(6);
-            testList.Add(7);
-            testList.Add(8);
-            testList.Add(9);
-            testList2.Add(1);
-            testList2.Add(3);
-            testList2.Add(5);
-            testList2.Add(7);
-            testList2.Add(9);
+            testListOne.Add(0);
+            testListOne.Add(1);
+            testListOne.Add(2);
+            testListOne.Add(3);
+            testListOne.Add(4);
+            testListOne.Add(5);
+            testListOne.Add(6);
+            testListOne.Add(7);
+            testListOne.Add(8);
+            testListOne.Add(9);
+            testListTwo.Add(1);
+            testListTwo.Add(3);
+            testListTwo.Add(5);
+            testListTwo.Add(7);
+            testListTwo.Add(9);
 
-            results = testList + testList2;
+            results = testListOne + testListTwo;
 
             Assert.AreEqual(7, results.ReturnAt(13));
         }
         [TestMethod]
         public void SubtractTwoLists()
         {
-            ListCustom<int> testList = new ListCustom<int>();
-            ListCustom<int> testList2 = new ListCustom<int>();
+            ListCustom<int> testListOne = new ListCustom<int>();
+            ListCustom<int> testListTwo = new ListCustom<int>();
             ListCustom<int> results = new ListCustom<int>();
 
-            testList.Add(0);
-            testList.Add(1);
-            testList.Add(2);
-            testList.Add(3);
-            testList.Add(4);
-            testList.Add(5);
-            testList.Add(6);
-            testList.Add(7);
-            testList.Add(8);
-            testList.Add(9);
-            testList2.Add(1);
-            testList2.Add(3);
-            testList2.Add(5);
-            testList2.Add(7);
-            testList2.Add(9);
+            testListOne.Add(0);
+            testListOne.Add(1);
+            testListOne.Add(2);
+            testListOne.Add(3);
+            testListOne.Add(4);
+            testListOne.Add(5);
+            testListOne.Add(6);
+            testListOne.Add(7);
+            testListOne.Add(8);
+            testListOne.Add(9);
+            testListTwo.Add(1);
+            testListTwo.Add(3);
+            testListTwo.Add(5);
+            testListTwo.Add(7);
+            testListTwo.Add(9);
 
-            results = testList - testList2;
+            results = testListOne - testListTwo;
             Assert.AreEqual(8, results.ReturnAt(4));
         }
     }
