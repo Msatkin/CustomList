@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,20 +7,21 @@ using System.Threading.Tasks;
 
 namespace CustomList
 {
-    class ListCustom<T>
+    public class ListCustom<T>
     {
         public int count = 0;
-        public int capacity = 16;
+        public int capacity = 4;
+        private int capacityInterval = 2;
         public Int32 item;
         private T[] list;
 
         public ListCustom()
         {
-            list = new T[16];
+            list = new T[capacity];
         }
         public void Add(T addition)
         {
-            capacity += 2;
+            capacity += capacityInterval;
             T[] tempList = new T[capacity];
             for (int i = 0; i < count; i++)
             {
@@ -32,25 +34,40 @@ namespace CustomList
         public void Remove(T removal)
         {
             int itemsRemoved = 0;
-            capacity -= 2;
+            capacity -= capacityInterval;
             T[] tempList = new T[capacity];
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < count + 1; i++)
             {
                 if (list[i].Equals(removal))
                 {
                     if (list[i + itemsRemoved + 1] != null)
                     {
                         itemsRemoved++;
-                        tempList[i] = list[i + itemsRemoved + 1];
+                        tempList[i] = list[i + itemsRemoved];
                     }
                 }
+                else
+                {
+                    tempList[i] = list[i + itemsRemoved];
+                }
             }
-            count--;
+            count -= itemsRemoved;
             list = tempList;
         }
         public int Count()
         {
             return count;
+        }
+        public T ReturnAt(Int32 index)
+        {
+            if (index < count)
+            {
+                return list[index];
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
         }
     }
 }
