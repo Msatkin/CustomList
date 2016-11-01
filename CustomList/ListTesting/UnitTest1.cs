@@ -118,5 +118,58 @@ namespace ListTesting
 
             Assert.AreEqual(5, testList.ReturnAt(5));
         }
+        [TestMethod]
+        public void AddTwoLists()
+        {
+            ListCustom<int> testList = new ListCustom<int>();
+            ListCustom<int> testList2 = new ListCustom<int>();
+            ListCustom<int> results = new ListCustom<int>();
+
+            testList.Add(0);
+            testList.Add(1);
+            testList.Add(2);
+            testList.Add(3);
+            testList.Add(4);
+            testList.Add(5);
+            testList.Add(6);
+            testList.Add(7);
+            testList.Add(8);
+            testList.Add(9);
+            testList2.Add(1);
+            testList2.Add(3);
+            testList2.Add(5);
+            testList2.Add(7);
+            testList2.Add(9);
+
+            results = testList + testList2;
+
+            Assert.AreEqual(7, results.ReturnAt(13));
+        }
+        [TestMethod]
+        public void SubtractTwoLists()
+        {
+            ListCustom<int> testList = new ListCustom<int>();
+            ListCustom<int> testList2 = new ListCustom<int>();
+            ListCustom<int> results = new ListCustom<int>();
+
+            testList.Add(0);
+            testList.Add(1);
+            testList.Add(2);
+            testList.Add(3);
+            testList.Add(4);
+            testList.Add(5);
+            testList.Add(6);
+            testList.Add(7);
+            testList.Add(8);
+            testList.Add(9);
+            testList2.Add(1);
+            testList2.Add(3);
+            testList2.Add(5);
+            testList2.Add(7);
+            testList2.Add(9);
+
+            results = testList - testList2;
+            Assert.AreEqual(8, results.ReturnAt(4));
+        }
     }
 }

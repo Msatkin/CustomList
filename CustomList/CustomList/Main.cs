@@ -10,34 +10,35 @@ namespace CustomList
     {
         ListCustom<int> testList = new ListCustom<int>();
         ListCustom<int> testList2 = new ListCustom<int>();
+        ListCustom<int> results = new ListCustom<int>();
 
         public void RunTest()
         {
             testList.Add(0);
+            testList.Add(1);
             testList.Add(2);
+            testList.Add(3);
             testList.Add(4);
+            testList.Add(5);
             testList.Add(6);
+            testList.Add(7);
             testList.Add(8);
-            testList.Add(10);
-            testList.Add(11);
-            testList.Add(12);
-            testList.Add(13);
-            testList.Add(14);
+            testList.Add(9);
             testList2.Add(1);
             testList2.Add(3);
             testList2.Add(5);
             testList2.Add(7);
             testList2.Add(9);
-            testList.Zipper(testList2);
-            PrintList();
 
+            results = testList - testList2;
+            PrintList();
         }
         public void PrintList()
         {
             Console.Clear();
             for (int i = 0; i < testList.Count(); i++)
             {
-                Console.WriteLine(testList.ReturnAt(i));
+                Console.WriteLine(results.ReturnAt(i));
             }
             Console.ReadLine();
         }
