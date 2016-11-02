@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace CustomList
 {
-    public class ListCustom<T> : CollectionBase, IEnumerable
+    public class ListCustom<T> : CollectionBase, IEnumerable where T : IComparable<T>
     {
-        int count = 0;
-        static int listBuffer = 8;
+        private int count = 0;
+        private static int listBuffer = 8;
         private T[] list;
 
         public T this[int index]
@@ -58,39 +58,29 @@ namespace CustomList
         //-----------------------------------------Remove
         public void Remove(T item)
         {
-            int itemsRemoved = 0;
-            T[] tempList = new T[count + listBuffer];
-            for (int i = 0; i < count + 1; i++)
+            int numberOfItems = Count(item);
+            while (Count(item) > 0)
             {
-                if (list[i].Equals(item))
-                {
-                    if (list[i + itemsRemoved + 1] != null)
-                    {
-                        itemsRemoved++;
-                        tempList[i] = list[i + itemsRemoved];
-                    }
-                }
-                else
-                {
-                    tempList[i] = list[i + itemsRemoved];
-                }
+                int index = GetFirstIndex(item);
+                RemoveAt(index);
             }
-            count -= itemsRemoved;
-            list = tempList;
         }
         new public void RemoveAt(int index)
         {
-            T[] tempList = new T[count + listBuffer];
-            for (int i = 0; i < index; i++)
+            int removed = 0;
+            T[] tempList = new T[count + listBuffer - 1];
+            for (int i = 0; i < count; i++)
             {
-                tempList[i] = list[i];
+                if (i != index)
+                {
+                    tempList[i - removed] = list[i];
+                }
+                else
+                {
+                    removed++;
+                }
             }
-            
-            for (int i = index; i < count + 1; i++)
-            {
-                tempList[i] = list[i + 1];
-            }
-            count--;
+            count -= removed;
             list = tempList;
         }
         //-----------------------------------------Misc
@@ -137,20 +127,13 @@ namespace CustomList
                     return i;
                 }
             }
-            throw new NullReferenceException();
+            return -1;
         }
         private int GetLesserLength(ListCustom<T> listOne, ListCustom<T> listTwo)
         {
-            if (listOne.count <= listTwo.count)
-            {
-                return count;
-            }
-            else
-            {
-                return listTwo.count;
-            }
+            return Math.Min(listOne.Count(), listTwo.Count());
         }
-        public T ReturnAt(Int32 index)
+        public T ReturnAt(int index)
         {
             if (index < count)
             {
@@ -184,11 +167,11 @@ namespace CustomList
             if (listOne != null && listTwo != null)
             {
                 ListCustom<T> tempList = new ListCustom<T>();
-                for (int i = 0; i < listOne.count; i++)
+                for (int i = 0; i < listOne.Count(); i++)
                 {
                     tempList.Add(listOne[i]);
                 }
-                for (int i = 0; i < listTwo.count; i++)
+                for (int i = 0; i < listTwo.Count(); i++)
                 {
                     tempList.Add(listTwo[i]);
                 }
@@ -201,18 +184,59 @@ namespace CustomList
         }
         public static ListCustom<T> operator -(ListCustom<T> listOne, ListCustom<T> listTwo)
         {
+            ListCustom<T> listThree = listOne;
             if (listOne != null && listTwo != null)
             {
-                for (int i = 0; i < listTwo.count; i++)
+                for (int i = 0; i < listTwo.Count(); i++)
                 {
-                    listOne.Remove(listTwo.list[i]);
+                    listThree.Remove(listTwo.list[i]);
                 }
-                return listOne;
+                return listThree;
             }
             else
             {
                 throw new NullReferenceException();
             }
+        }
+        //-----------------------------------------Sorting
+        public void Sort()
+        {
+            QuickSort(list, 0, count - 1);
+        }
+        private void QuickSort<T>(T[] list, int left, int right) where T : IComparable<T>
+        {
+            int i = left;
+            int j = right;
+            T pivot = list[(left + right) / 2];
+            while (i <= j)
+            {
+                while(list[i].CompareTo(pivot) < 0)
+                {
+                    i++;
+                }
+                while (list[j].CompareTo(pivot) > 0)
+                {
+                    j--;
+                }
+                if (i <= j)
+                {
+                    T temp = list[i];
+                    list[i++] = list[j];
+                    list[j--] = temp;
+                }
+            }
+            if (left < j)
+            {
+                QuickSort(list, left, j);
+            }
+            if (i < right)
+            {
+                QuickSort(list, i, right);
+            }
+        }
+        private int CompareTo(T y)
+        {
+            return this.CompareTo(y);
         }
     }
 }
